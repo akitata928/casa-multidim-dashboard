@@ -1,1 +1,242 @@
+<!DOCTYPE html><html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CASA 多維度行為模型專案成果</title>
+  <style>
+    body {
+      font-family: "Segoe UI", "Noto Sans TC", sans-serif;
+      margin: 0;
+      background: #f4f7fb;
+      color: #1f2937;
+      line-height: 1.7;
+    }
+    header {
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+      color: white;
+      padding: 48px 64px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 40px;
+    }
+    header p {
+      margin-top: 12px;
+      opacity: 0.92;
+      font-size: 18px;
+    }
+    main {
+      max-width: 1200px;
+      margin: auto;
+      padding: 32px;
+    }
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    }
+    h2 {
+      margin-top: 0;
+      color: #0f172a;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+    th, td {
+      border: 1px solid #d1d5db;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background: #e2e8f0;
+    }
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #dbeafe;
+      color: #1d4ed8;
+      font-size: 13px;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .kpi {
+      background: #eff6ff;
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .kpi h3 {
+      margin: 0;
+      color: #1e40af;
+      font-size: 14px;
+    }
+    .kpi p {
+      margin: 10px 0 0;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    code {
+      background: #111827;
+      color: #f9fafb;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    footer {
+      text-align: center;
+      color: #6b7280;
+      padding: 40px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>CASA 多維度存款行為模型</h1>
+    <p>VBA → Python → Streamlit Dashboard 銀行級可驗證模型轉換專案</p>
+  </header>  <main>
+    <section class="card">
+      <h2>專案目標</h2>
+      <p>
+        將原始 Excel VBA CASA 存款行為模型擴充為支援多維度批次執行，
+        並建立 Python 管線與 Streamlit Dashboard，且必須滿足銀行模型治理要求：
+        <strong>結果可回溯、可驗證、可比對 VBA 與 Python 一致性。</strong>
+      </p><div>
+    <span class="badge">多維度批次</span>
+    <span class="badge">VBA 相容</span>
+    <span class="badge">Python Pipeline</span>
+    <span class="badge">Streamlit Dashboard</span>
+    <span class="badge">銀行模型驗證</span>
+  </div>
+</section>
 
+<section class="card">
+  <h2>資料維度</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>欄位</th>
+        <th>說明</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>date</td>
+        <td>月份，例如 202401</td>
+      </tr>
+      <tr>
+        <td>org_unit</td>
+        <td>組織單位：法金、個金、數金、金市</td>
+      </tr>
+      <tr>
+        <td>customer_type</td>
+        <td>客戶別：自然人、法人企業戶</td>
+      </tr>
+      <tr>
+        <td>currency</td>
+        <td>幣別：TWD、USD</td>
+      </tr>
+      <tr>
+        <td>balance</td>
+        <td>月底餘額</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="card">
+  <h2>VBA 多維度批次控制器</h2>
+  <div class="grid">
+    <div class="kpi">
+      <h3>資料驗證</h3>
+      <p>完成</p>
+    </div>
+    <div class="kpi">
+      <h3>重複月份檢核</h3>
+      <p>ERROR</p>
+    </div>
+    <div class="kpi">
+      <h3>缺月份處理</h3>
+      <p>WARNING</p>
+    </div>
+    <div class="kpi">
+      <h3>最小月份數</h3>
+      <p>24</p>
+    </div>
+  </div>
+
+  <h3>批次流程</h3>
+  <pre>
+
+RawData_All ↓ 逐組維度過濾 ↓ 寫入 RawData ↓ 呼叫原 VBA 模型 ↓ 保留中間快照 ↓ 寫入 _All 彙總表 </pre> </section>
+
+<section class="card">
+  <h2>Python 多維度管線</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>模組</th>
+        <th>功能</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>casa_pipeline_multidim.py</td>
+        <td>多維度 CASA 行為模型批次計算</td>
+      </tr>
+      <tr>
+        <td>dashboard_multidim.py</td>
+        <td>Streamlit Dashboard</td>
+      </tr>
+      <tr>
+        <td>verify_multidim_against_vba.py</td>
+        <td>VBA 與 Python 結果逐欄驗證</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>CLI 執行範例</h3>
+  <pre>
+
+python casa_pipeline_multidim.py sample_rawdata_multidim.csv 
+--out-dir output_multidim 
+--passthrough 0.28 
+--min-months 24 </pre> </section>
+
+<section class="card">
+  <h2>銀行模型治理與驗證</h2>
+  <ul>
+    <li>Python 與 VBA 輸出逐欄比對</li>
+    <li>支援 Absolute / Relative Tolerance</li>
+    <li>產出 verify_failures.csv</li>
+    <li>保留每組中間快照工作表</li>
+    <li>支援 Batch_Status 與 Audit_Log</li>
+    <li>完整可回溯模型執行紀錄</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>下一階段建議</h2>
+  <ol>
+    <li>完成 VBA 真實銀行資料驗證</li>
+    <li>建立正式 Python package 結構</li>
+    <li>導入 pytest 自動化測試</li>
+    <li>建立 Docker 部署版本</li>
+    <li>導入資料庫與 API</li>
+    <li>建立模型版本控管與參數治理</li>
+  </ol>
+</section>
+
+  </main>  <footer>
+    CASA 多維度行為模型專案成果頁面 · Generated by ChatGPT
+  </footer>
+</body>
+</html>
